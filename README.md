@@ -1,16 +1,142 @@
-# work_log_flutter_project
+# WorkLog - 工作日志记录应用
 
-A new Flutter project.
+一个简洁优雅的Windows桌面应用，用于记录和管理每天的工作时间段和内容。
 
-## Getting Started
+## 功能特性
 
-This project is a starting point for a Flutter application.
+### 📅 今日工作记录
+- **智能时间填充**：添加新记录时，自动使用最后一条记录的结束时间作为开始时间，结束时间自动增加30分钟
+- **日期筛选**：支持选择任意日期查看历史记录，快速切换不同日期的工作内容
+- **一键重置**：快速回到今日视图
+- **实时编辑**：支持编辑和删除工作记录，操作简单直观
 
-A few resources to get you started if this is your first Flutter project:
+### 📚 历史记录查询
+- **日期范围筛选**：灵活选择开始和结束日期，查看指定时间段的工作记录
+- **按日期分组**：自动按日期分组显示，清晰展示每天的工作安排
+- **完整操作**：历史记录同样支持编辑和删除功能
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 📤 导出功能
+- **Markdown格式**：导出为标准的Markdown文件，便于分享和查看
+- **自定义标题**：可设置导出文档的标题
+- **自定义文件名**：灵活设置导出文件的名称
+- **日期范围选择**：支持导出指定日期范围的工作记录
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 技术架构
+
+### 项目结构
+```
+lib/
+├── main.dart                 # 应用入口和主布局
+├── models/
+│   └── work_log_entry.dart   # 工作记录数据模型
+├── services/
+│   └── storage_service.dart  # JSON文件存储服务
+├── pages/
+│   ├── today_page.dart       # 今日页面
+│   ├── history_page.dart     # 历史页面
+│   └── export_page.dart      # 导出页面
+└── widgets/
+    ├── sidebar.dart          # 左侧导航菜单
+    ├── time_range_picker.dart # 时间范围选择器
+    └── work_log_item.dart    # 工作记录项组件
+```
+
+### 核心技术
+- **Flutter 3.3.4+** - 跨平台UI框架
+- **JSON文件存储** - 轻量级本地数据持久化
+- **Material Design 3** - 现代化UI设计
+- **深色模式支持** - 自动适配系统主题
+
+### 主要依赖
+- `path_provider` - 获取应用数据目录
+- `file_picker` - 文件选择器（导出功能）
+- `intl` - 国际化日期格式化
+
+## 安装与运行
+
+### 环境要求
+- Flutter SDK >= 3.3.4
+- Windows 10/11（需要启用开发者模式以支持符号链接）
+
+### 安装步骤
+
+1. **克隆项目**
+   ```bash
+   git clone <repository-url>
+   cd work_log_flutter_project
+   ```
+
+2. **安装依赖**
+   ```bash
+   flutter pub get
+   ```
+
+3. **运行应用**
+   ```bash
+   flutter run -d windows
+   ```
+
+### Windows开发者模式设置
+
+如果遇到符号链接错误，需要启用Windows开发者模式：
+1. 打开Windows设置（`Win + I`）
+2. 搜索"开发者模式"或运行 `start ms-settings:developers`
+3. 启用"开发者模式"选项
+
+## 使用说明
+
+### 添加工作记录
+1. 在"今日"页面点击"添加记录"按钮
+2. 选择时间段（开始时间和结束时间）
+3. 输入工作内容
+4. 点击"添加"保存
+
+### 编辑记录
+- 将鼠标悬停在记录上，点击编辑图标
+- 修改时间段或内容后保存
+
+### 查看历史
+1. 切换到"历史"页面
+2. 选择日期范围
+3. 查看按日期分组的工作记录
+
+### 导出记录
+1. 切换到"导出"页面
+2. 设置导出标题（可选）
+3. 设置文件名
+4. 选择日期范围
+5. 点击"导出"按钮，选择保存位置
+
+## 数据存储
+
+工作记录以JSON格式存储在应用数据目录中：
+- Windows: `%APPDATA%\work_log_flutter_project\work_logs.json`
+- 数据格式：每个记录包含ID、日期、开始时间、结束时间和内容
+
+## UI设计
+
+- **主色调**：`#136dec`（蓝色）
+- **浅色模式背景**：`#f6f7f8`
+- **深色模式背景**：`#101822`
+- **左侧菜单宽度**：256px
+- **响应式布局**：最大宽度896px，居中显示
+
+## 开发计划
+
+- [ ] 数据备份和恢复功能
+- [ ] 工作记录统计和分析
+- [ ] 多语言支持
+- [ ] 数据导入功能
+- [ ] 工作记录标签分类
+
+## 许可证
+
+本项目为私有项目，仅供个人使用。
+
+## 贡献
+
+欢迎提交Issue和Pull Request来改进这个项目。
+
+---
+
+**WorkLog** - 让工作记录更简单、更高效 🚀
