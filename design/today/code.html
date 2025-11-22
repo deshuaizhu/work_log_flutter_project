@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkLog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-zinc-900 dark:text-white">
+<div class="flex min-h-screen">
+<aside class="w-64 flex-shrink-0 bg-white dark:bg-[#19212b] p-4 flex flex-col">
+<div class="flex flex-col gap-6">
+<div class="flex gap-3 items-center px-2 pt-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="WorkLog application logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsSI09AnW3DaLMA5k6oIwI80OxaR2n2zmVegyZc6JEEMcdd_aPlPeL0Rs7h5UfqkAGZ5aCe0EugirVpnwZB346MjXsAr7D2Fad5qnsowQiPr3qvzDR2gATBWYW8gUqvFH-RsKW1HHUKIvgzeDW2wP7n0BDxvOxeOfeDeEVz8YXf84qOltHcsPExwVkbx2L7HKADV8AHoiaUOSGRgEoPGSm_Wf43VKX8buDb9AtT7WeYHCjCsoPelB9JejAxlAH4SrBhla-fkcgdYM");'></div>
+<div class="flex flex-col">
+<h1 class="text-zinc-900 dark:text-white text-base font-medium leading-normal">WorkLog</h1>
+<p class="text-zinc-500 dark:text-[#9da8b9] text-sm font-normal leading-normal">记录您的工作</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined text-primary">today</span>
+<p class="text-sm font-medium leading-normal">今日</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/5" href="#">
+<span class="material-symbols-outlined">history</span>
+<p class="text-sm font-medium leading-normal">历史</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/5" href="#">
+<span class="material-symbols-outlined">download</span>
+<p class="text-sm font-medium leading-normal">导出</p>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 p-6 lg:p-8">
+<div class="max-w-4xl mx-auto">
+<header class="flex justify-between items-center mb-6">
+<div class="flex items-center gap-2">
+<h1 class="text-zinc-900 dark:text-white tracking-tight text-2xl font-bold">2023年10月27日</h1>
+<button class="p-2 text-zinc-500 dark:text-zinc-400 rounded-md hover:bg-zinc-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">calendar_today</span>
+</button>
+</div>
+<button class="bg-primary text-white text-sm font-medium py-2 px-4 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+<span>添加记录</span>
+</button>
+</header>
+<div class="space-y-3">
+<div class="group flex gap-4 bg-white dark:bg-[#19212b] p-4 items-center rounded-lg shadow-sm">
+<p class="text-sm font-medium text-zinc-800 dark:text-zinc-200 w-32 shrink-0">09:00 - 11:30</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-300 flex-1">完成项目A的需求文档初稿</p>
+<div class="shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-zinc-500 dark:text-zinc-400 hover:text-primary dark:hover:text-primary rounded-md hover:bg-zinc-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+</button>
+<button class="p-2 text-zinc-500 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-500 rounded-md hover:bg-zinc-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+</button>
+</div>
+</div>
+<div class="group flex gap-4 bg-white dark:bg-[#19212b] p-4 items-center rounded-lg shadow-sm">
+<p class="text-sm font-medium text-zinc-800 dark:text-zinc-200 w-32 shrink-0">13:00 - 15:00</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-300 flex-1">与设计团队开会讨论UI/UX原型</p>
+<div class="shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-zinc-500 dark:text-zinc-400 hover:text-primary dark:hover:text-primary rounded-md hover:bg-zinc-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+</button>
+<button class="p-2 text-zinc-500 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-500 rounded-md hover:bg-zinc-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+</button>
+</div>
+</div>
+<div class="group flex gap-4 bg-white dark:bg-[#19212b] p-4 items-center rounded-lg shadow-sm">
+<p class="text-sm font-medium text-zinc-800 dark:text-zinc-200 w-32 shrink-0">15:30 - 17:00</p>
+<p class="text-sm text-zinc-600 dark:text-zinc-300 flex-1">根据会议反馈，修改原型图，并更新至共享文档。与产品经理沟通确认修改点。</p>
+<div class="shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-zinc-500 dark:text-zinc-400 hover:text-primary dark:hover:text-primary rounded-md hover:bg-zinc-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+</button>
+<button class="p-2 text-zinc-500 dark:text-zinc-400 hover:text-red-500 dark:hover:text-red-500 rounded-md hover:bg-zinc-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

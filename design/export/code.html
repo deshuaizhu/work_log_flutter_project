@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WorkLog 导出</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-row">
+<aside class="flex h-screen w-64 flex-col border-r border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-[#1a232f]">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-3 py-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="WorkLog application logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCtENU1pqwLk1zluS3xrFhtijDbhn7lqkJ2pjl107rbJ2upSuESVWR4FIcGWoKYLAh4Bmf-IwDwpFn2bXqF3jmpF93pw7z7E3iEijdB9_QHJX92ql0s2yH1_75PC21ZH6w_Sivr2SW5qEP0zyxONArH5iyvnXVODhCGv15ZnCLMH1CLWY30Ps6JBh2v_WG1dvhSe1CAfFxOgVAecKFXVgwkFCKWbbAeI1fk-SkTRl7k_wu4FBkAW14RjsZURoa7VEazH_YHVvni9ps");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-medium leading-normal">WorkLog</h1>
+<p class="text-slate-500 dark:text-[#9da8b9] text-sm font-normal leading-normal">每日工作记录</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 pt-4">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">today</span>
+<p class="text-sm font-medium leading-normal">今日</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400">history</span>
+<p class="text-sm font-medium leading-normal">历史</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/20 px-3 py-2 text-primary dark:bg-primary/20 dark:text-primary" href="#">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1, 'wght' 500;">upload_file</span>
+<p class="text-sm font-medium leading-normal text-primary">导出</p>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto">
+<div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+<div class="flex flex-wrap justify-between gap-3 pb-8">
+<div class="flex min-w-72 flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">导出工作记录</h1>
+<p class="text-slate-500 dark:text-[#9da8b9] text-base font-normal leading-normal">配置您的Markdown导出设置。</p>
+</div>
+</div>
+<div class="flex flex-col gap-8">
+<div class="border-b border-slate-200 dark:border-slate-800">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3">导出设置</h2>
+</div>
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+<label class="flex flex-col flex-1">
+<p class="pb-2 text-base font-medium text-slate-800 dark:text-white">导出标题</p>
+<input class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-slate-300 bg-white p-[15px] text-base font-normal leading-normal text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-0 focus:ring-0 focus:ring-primary/50 dark:border-[#3b4554] dark:bg-[#1c2027] dark:text-white dark:placeholder:text-[#9da8b9] dark:focus:border-primary" placeholder="例如：每周进度报告" value=""/>
+</label>
+<label class="flex flex-col flex-1">
+<p class="pb-2 text-base font-medium text-slate-800 dark:text-white">文件名称</p>
+<input class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-slate-300 bg-white p-[15px] text-base font-normal leading-normal text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-0 focus:ring-0 focus:ring-primary/50 dark:border-[#3b4554] dark:bg-[#1c2027] dark:text-white dark:placeholder:text-[#9da8b9] dark:focus:border-primary" value="WorkLog_Export_2023-10-27"/>
+</label>
+</div>
+<div class="flex flex-col">
+<p class="pb-2 text-base font-medium text-slate-800 dark:text-white">日期范围</p>
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+<div class="relative flex-1">
+<input class="form-input h-14 w-full rounded-lg border border-slate-300 bg-white p-[15px] text-base font-normal text-slate-900 focus:border-primary focus:outline-0 focus:ring-0 focus:ring-primary/50 dark:border-[#3b4554] dark:bg-[#1c2027] dark:text-white dark:[color-scheme:dark]" onblur="(this.type='text')" onfocus="(this.type='date')" placeholder="YYYY年MM月DD日" type="text" value="2023-10-01"/>
+<span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">calendar_today</span>
+</span>
+</div>
+<div class="relative flex-1">
+<input class="form-input h-14 w-full rounded-lg border border-slate-300 bg-white p-[15px] text-base font-normal text-slate-900 focus:border-primary focus:outline-0 focus:ring-0 focus:ring-primary/50 dark:border-[#3b4554] dark:bg-[#1c2027] dark:text-white dark:[color-scheme:dark]" onblur="(this.type='text')" onfocus="(this.type='date')" placeholder="YYYY年MM月DD日" type="text" value="2023-10-27"/>
+<span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">calendar_today</span>
+</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-start gap-4 border-t border-slate-200 pt-8 dark:border-slate-800">
+<button class="flex h-12 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-base font-medium text-white shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+<span class="material-symbols-outlined">download</span>
+<span>导出</span>
+</button>
+<p class="text-sm text-slate-500 dark:text-slate-400">将导出为Markdown (.md) 文件。</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
