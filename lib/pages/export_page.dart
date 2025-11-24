@@ -23,7 +23,8 @@ class _ExportPageState extends State<ExportPage> {
   @override
   void initState() {
     super.initState();
-    _fileNameController.text = 'WorkLog_Export_${DateFormat('yyyy-MM-dd').format(DateTime.now())}';
+    _updateTitleFromDate();
+    _updateFileNameFromDate();
   }
 
   @override
@@ -37,6 +38,27 @@ class _ExportPageState extends State<ExportPage> {
     return DateFormat('yyyy年MM月dd日', 'zh_CN').format(date);
   }
 
+  void _updateTitleFromDate() {
+    final year = _endDate.year;
+    final month = _endDate.month;
+    _titleController.text = '$year年$month月Monthly Report';
+  }
+
+  String _getUsername() {
+    // 尝试从环境变量获取用户名
+    final username = Platform.environment['USERNAME'] ?? 
+                    Platform.environment['USER'] ?? 
+                    'User';
+    return username;
+  }
+
+  void _updateFileNameFromDate() {
+    final year = _endDate.year;
+    final month = _endDate.month;
+    final username = _getUsername();
+    _fileNameController.text = 'FMS-$username-$year年$month月-monthly report';
+  }
+
   Future<void> _selectStartDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -46,8 +68,8 @@ class _ExportPageState extends State<ExportPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: const Color(0xFF136dec),
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF136dec),
             ),
           ),
           child: child!,
@@ -60,6 +82,8 @@ class _ExportPageState extends State<ExportPage> {
         if (_startDate.isAfter(_endDate)) {
           _endDate = _startDate;
         }
+        _updateTitleFromDate();
+        _updateFileNameFromDate();
       });
     }
   }
@@ -73,8 +97,8 @@ class _ExportPageState extends State<ExportPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: const Color(0xFF136dec),
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF136dec),
             ),
           ),
           child: child!,
@@ -84,6 +108,8 @@ class _ExportPageState extends State<ExportPage> {
     if (picked != null && picked != _endDate) {
       setState(() {
         _endDate = picked;
+        _updateTitleFromDate();
+        _updateFileNameFromDate();
       });
     }
   }
@@ -98,12 +124,13 @@ class _ExportPageState extends State<ExportPage> {
     if (_titleController.text.trim().isNotEmpty) {
       buffer.writeln('# ${_titleController.text.trim()}');
       buffer.writeln();
+      buffer.writeln();
     }
     
     // 按日期分组输出
     for (final date in sortedDates) {
       final dateStr = DateFormat('yyyy年MM月dd日', 'zh_CN').format(date);
-      buffer.writeln('## $dateStr');
+      buffer.writeln('### $dateStr');
       buffer.writeln();
       
       final dayEntries = entries[date]!;
