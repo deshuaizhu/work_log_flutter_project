@@ -42,6 +42,7 @@ class _TodayPageState extends State<TodayPage> {
   Future<void> _selectDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
+      locale: const Locale('zh', 'CN'),
       initialDate: _selectedDate,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
