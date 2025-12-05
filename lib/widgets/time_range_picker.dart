@@ -34,8 +34,8 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: const Color(0xFF136dec),
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF136dec),
             ),
           ),
           child: child!,
@@ -64,8 +64,8 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: const Color(0xFF136dec),
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF136dec),
             ),
           ),
           child: child!,
