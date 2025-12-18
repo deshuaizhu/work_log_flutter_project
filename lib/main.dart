@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'controllers/main_controller.dart';
 import 'widgets/sidebar.dart';
 import 'pages/today_page.dart';
 import 'pages/history_page.dart';
@@ -14,8 +16,12 @@ void main() async {
   // 初始化日期格式化（中文）
   await initializeDateFormatting('zh_CN', null);
 
-  // 初始化存储服务
-  await StorageService().init();
+  // 初始化并注册存储服务（使用 putAsync 等待异步初始化完成）
+  await Get.putAsync<StorageService>(() async {
+    final service = StorageService();
+    await service.onInit();
+    return service;
+  }, permanent: true);
 
   runApp(const MyApp());
 }
@@ -25,7 +31,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'WorkLog',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -60,46 +66,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatefulWidget {
+class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  MenuItem _selectedMenuItem = MenuItem.today;
-
-  void _handleMenuSelection(MenuItem item) {
-    setState(() {
-      _selectedMenuItem = item;
-    });
-  }
-
-  Widget _buildContent() {
-    switch (_selectedMenuItem) {
-      case MenuItem.today:
-        return const TodayPage();
-      case MenuItem.history:
-        return const HistoryPage();
-      case MenuItem.export:
-        return const ExportPage();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(MainController());
+
+    Widget buildContent() {
+      return Obx(() {
+        switch (controller.selectedMenuItem.value) {
+          case MenuItem.today:
+            return const TodayPage();
+          case MenuItem.history:
+            return const HistoryPage();
+          case MenuItem.export:
+            return const ExportPage();
+        }
+      });
+    }
+
     return Scaffold(
       body: Row(
         children: [
           // 左侧菜单
-          Sidebar(
-            selectedItem: _selectedMenuItem,
-            onItemSelected: _handleMenuSelection,
-          ),
+          Obx(() => Sidebar(
+                selectedItem: controller.selectedMenuItem.value,
+                onItemSelected: controller.selectMenuItem,
+              )),
           // 右侧内容区
           Expanded(
-            child: _buildContent(),
+            child: buildContent(),
           ),
         ],
       ),

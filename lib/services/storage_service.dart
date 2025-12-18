@@ -1,19 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import '../models/work_log_entry.dart';
 
-class StorageService {
-  static final StorageService _instance = StorageService._internal();
-  factory StorageService() => _instance;
-  StorageService._internal();
-
+class StorageService extends GetxService {
   List<WorkLogEntry> _entries = [];
   File? _file;
 
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    await _init();
+  }
+
   // 初始化存储服务
-  Future<void> init() async {
+  Future<void> _init() async {
     try {
       final directory = await getApplicationSupportDirectory();
       _file = File('${directory.path}/work_logs.json');
