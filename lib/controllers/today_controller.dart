@@ -22,6 +22,11 @@ class TodayController extends GetxController {
   void onInit() {
     super.onInit();
     loadEntries();
+    
+    // 监听数据源变化，自动刷新数据
+    ever(_storageService.dataChanged, (_) {
+      loadEntries();
+    });
   }
 
   Future<void> loadEntries() async {

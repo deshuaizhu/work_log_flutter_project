@@ -8,6 +8,7 @@ import 'widgets/sidebar.dart';
 import 'pages/today_page.dart';
 import 'pages/history_page.dart';
 import 'pages/export_page.dart';
+import 'pages/data_source_page.dart';
 import 'services/storage_service.dart';
 
 void main() async {
@@ -82,6 +83,8 @@ class MainPage extends StatelessWidget {
             return const HistoryPage();
           case MenuItem.export:
             return const ExportPage();
+          case MenuItem.dataSource:
+            return const DataSourcePage();
         }
       });
     }

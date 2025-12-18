@@ -8,6 +8,10 @@ import '../models/work_log_entry.dart';
 class StorageService extends GetxService {
   List<WorkLogEntry> _entries = [];
   File? _file;
+  File? _configFile;
+  
+  // 数据变更通知，用于通知所有控制器刷新数据
+  final dataChanged = 0.obs;
 
   @override
   Future<void> onInit() async {
@@ -15,24 +19,84 @@ class StorageService extends GetxService {
     await _init();
   }
 
+  // 获取配置文件路径
+  Future<File> _getConfigFile() async {
+    if (_configFile != null) return _configFile!;
+    final directory = await getApplicationSupportDirectory();
+    _configFile = File('${directory.path}/config.json');
+    return _configFile!;
+  }
+
+  // 读取配置文件
+  Future<String?> _readConfigPath() async {
+    try {
+      final configFile = await _getConfigFile();
+      if (await configFile.exists()) {
+        final content = await configFile.readAsString();
+        if (content.isNotEmpty) {
+          final Map<String, dynamic> config = json.decode(content);
+          return config['dataSourcePath'] as String?;
+        }
+      }
+    } catch (e) {
+      debugPrint('读取配置文件失败: $e');
+    }
+    return null;
+  }
+
+  // 保存配置文件
+  Future<void> _saveConfigPath(String filePath) async {
+    try {
+      final configFile = await _getConfigFile();
+      final config = {'dataSourcePath': filePath};
+      await configFile.writeAsString(json.encode(config));
+    } catch (e) {
+      debugPrint('保存配置文件失败: $e');
+    }
+  }
+
   // 初始化存储服务
   Future<void> _init() async {
     try {
-      final directory = await getApplicationSupportDirectory();
-      _file = File('${directory.path}/work_logs.json');
+      // 优先读取配置文件中的自定义路径
+      String? customPath = await _readConfigPath();
       
-      if (await _file!.exists()) {
-        final content = await _file!.readAsString();
-        if (content.isNotEmpty) {
-          final List<dynamic> jsonList = json.decode(content);
-          _entries = jsonList.map((json) => WorkLogEntry.fromJson(json)).toList();
-        }
+      if (customPath != null && await File(customPath).exists()) {
+        _file = File(customPath);
       } else {
-        await _file!.create(recursive: true);
-        await _save();
+        // 使用默认路径
+        final directory = await getApplicationSupportDirectory();
+        _file = File('${directory.path}/work_logs.json');
       }
+      
+      await _loadData();
     } catch (e) {
       debugPrint('初始化存储服务失败: $e');
+    }
+  }
+
+  // 加载数据
+  Future<void> _loadData() async {
+    try {
+      if (_file != null) {
+        if (await _file!.exists()) {
+          final content = await _file!.readAsString();
+          if (content.isNotEmpty) {
+            final List<dynamic> jsonList = json.decode(content);
+            _entries = jsonList.map((json) => WorkLogEntry.fromJson(json)).toList();
+          } else {
+            _entries = [];
+          }
+        } else {
+          // 如果文件不存在，创建它
+          await _file!.create(recursive: true);
+          _entries = [];
+          await _save();
+        }
+      }
+    } catch (e) {
+      debugPrint('加载数据失败: $e');
+      _entries = [];
     }
   }
 
@@ -123,6 +187,56 @@ class StorageService extends GetxService {
     }
     
     return grouped;
+  }
+
+  // 获取当前文件路径
+  String? getCurrentFilePath() {
+    return _file?.path;
+  }
+
+  // 切换数据源并重新加载数据
+  Future<bool> changeDataSource(String filePath) async {
+    try {
+      // 验证文件是否存在
+      final newFile = File(filePath);
+      if (!await newFile.exists()) {
+        debugPrint('文件不存在: $filePath');
+        return false;
+      }
+
+      // 验证文件是否为有效的 JSON 格式
+      try {
+        final content = await newFile.readAsString();
+        if (content.isNotEmpty) {
+          json.decode(content) as List;
+        }
+      } catch (e) {
+        debugPrint('文件格式无效: $e');
+        return false;
+      }
+
+      // 保存新路径到配置文件
+      await _saveConfigPath(filePath);
+
+      // 更新文件引用
+      _file = newFile;
+
+      // 重新加载数据
+      await _loadData();
+      
+      // 通知所有控制器数据已变更
+      dataChanged.value++;
+
+      return true;
+    } catch (e) {
+      debugPrint('切换数据源失败: $e');
+      return false;
+    }
+  }
+
+  // 重新加载数据
+  Future<void> reloadData() async {
+    await _loadData();
   }
 }
 

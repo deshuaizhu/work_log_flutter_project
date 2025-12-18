@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum MenuItem { today, history, export }
+enum MenuItem { today, history, export, dataSource }
 
 class Sidebar extends StatelessWidget {
   final MenuItem selectedItem;
@@ -94,6 +94,14 @@ class Sidebar extends StatelessWidget {
                   label: '导出',
                   item: MenuItem.export,
                   isSelected: selectedItem == MenuItem.export,
+                ),
+                const SizedBox(height: 4),
+                _buildMenuItem(
+                  context: context,
+                  icon: Icons.storage,
+                  label: '数据源',
+                  item: MenuItem.dataSource,
+                  isSelected: selectedItem == MenuItem.dataSource,
                 ),
               ],
             ),
