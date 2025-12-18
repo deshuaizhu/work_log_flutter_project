@@ -9,7 +9,9 @@ import 'pages/today_page.dart';
 import 'pages/history_page.dart';
 import 'pages/export_page.dart';
 import 'pages/data_source_page.dart';
+import 'pages/settings_page.dart';
 import 'services/storage_service.dart';
+import 'services/theme_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,13 @@ void main() async {
     return service;
   }, permanent: true);
 
+  // 初始化并注册主题服务
+  await Get.putAsync<ThemeService>(() async {
+    final service = ThemeService();
+    await service.onInit();
+    return service;
+  }, permanent: true);
+
   runApp(const MyApp());
 }
 
@@ -32,13 +41,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    final themeService = Get.find<ThemeService>();
+    
+    return Obx(() => GetMaterialApp(
       title: 'WorkLog',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF136dec),
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
         ),
         scaffoldBackgroundColor: const Color(0xFFf6f7f8),
         useMaterial3: true,
@@ -51,7 +62,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF101822),
         useMaterial3: true,
       ),
-      themeMode: ThemeMode.system,
+      themeMode: themeService.themeMode.value,
       // 添加本地化支持
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -63,7 +74,7 @@ class MyApp extends StatelessWidget {
         Locale('en', 'US'), // 英文（美国）
       ],
       home: const MainPage(),
-    );
+    ));
   }
 }
 
@@ -85,6 +96,8 @@ class MainPage extends StatelessWidget {
             return const ExportPage();
           case MenuItem.dataSource:
             return const DataSourcePage();
+          case MenuItem.settings:
+            return const SettingsPage();
         }
       });
     }
