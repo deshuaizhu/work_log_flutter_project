@@ -22,6 +22,16 @@
 - **日期范围选择**：支持导出指定日期范围的工作记录，标题和文件名会根据结束日期自动更新
 - **手动编辑**：标题和文件名支持手动编辑，可在自动生成的基础上进行个性化调整
 
+### 💾 数据源管理
+- **文件路径显示**：实时查看当前使用的数据文件路径
+- **自定义数据源**：支持选择已存在的JSON文件作为数据源
+- **自动数据同步**：切换数据源后，所有页面（今日、历史）的数据会自动刷新
+- **数据验证**：切换数据源时会自动验证文件格式的有效性
+
+### ⚙️ 设置功能
+- **黑夜模式切换**：一键切换应用的黑夜模式，支持亮色、暗色和系统模式
+- **设置持久化**：主题设置会自动保存，下次启动时自动应用
+
 ## 技术架构
 
 ### 项目结构
@@ -31,11 +41,21 @@ lib/
 ├── models/
 │   └── work_log_entry.dart   # 工作记录数据模型
 ├── services/
-│   └── storage_service.dart  # JSON文件存储服务
+│   ├── storage_service.dart  # JSON文件存储服务
+│   └── theme_service.dart     # 主题管理服务
+├── controllers/
+│   ├── main_controller.dart   # 主控制器
+│   ├── today_controller.dart  # 今日页面控制器
+│   ├── history_controller.dart # 历史页面控制器
+│   ├── export_controller.dart # 导出页面控制器
+│   ├── data_source_controller.dart # 数据源页面控制器
+│   └── settings_controller.dart # 设置页面控制器
 ├── pages/
 │   ├── today_page.dart       # 今日页面
 │   ├── history_page.dart     # 历史页面
-│   └── export_page.dart      # 导出页面
+│   ├── export_page.dart      # 导出页面
+│   ├── data_source_page.dart # 数据源页面
+│   └── settings_page.dart    # 设置页面
 └── widgets/
     ├── sidebar.dart          # 左侧导航菜单
     ├── time_range_picker.dart # 时间范围选择器
@@ -44,13 +64,15 @@ lib/
 
 ### 核心技术
 - **Flutter 3.3.4+** - 跨平台UI框架
+- **GetX** - 状态管理和依赖注入
 - **JSON文件存储** - 轻量级本地数据持久化
 - **Material Design 3** - 现代化UI设计
-- **深色模式支持** - 自动适配系统主题
+- **深色模式支持** - 支持亮色、暗色和系统模式切换
 
 ### 主要依赖
+- `get` - 状态管理和路由管理
 - `path_provider` - 获取应用数据目录
-- `file_picker` - 文件选择器（导出功能）
+- `file_picker` - 文件选择器（导出和数据源选择）
 - `intl` - 国际化日期格式化
 
 ## 安装与运行
@@ -112,11 +134,38 @@ lib/
 
 **提示**：更改日期范围时，标题和文件名会自动更新，无需手动修改。
 
+### 管理数据源
+1. 切换到"数据源"页面
+2. 查看当前使用的数据文件路径
+3. 点击"选择文件"按钮，选择已存在的JSON文件
+4. 系统会自动验证文件格式并重新加载数据
+5. 切换成功后，今日和历史页面的数据会自动刷新
+
+**提示**：只能选择已存在的JSON文件，文件格式必须有效。
+
+### 应用设置
+1. 切换到"设置"页面
+2. 使用"黑夜模式"开关切换应用主题：
+   - **开启**：应用使用暗色主题
+   - **关闭**：应用使用亮色主题
+3. 设置会自动保存，下次启动时自动应用
+
+**提示**：主题设置会持久化保存，支持在亮色和暗色模式之间切换。
+
 ## 数据存储
 
-工作记录以JSON格式存储在应用数据目录中：
-- Windows: `%APPDATA%\work_log_flutter_project\work_logs.json`
-- 数据格式：每个记录包含ID、日期、开始时间、结束时间和内容
+### 工作记录文件
+工作记录以JSON格式存储：
+- **默认路径**：Windows: `%APPDATA%\work_log_flutter_project\work_logs.json`
+- **自定义路径**：可在"数据源"页面选择自定义JSON文件路径
+- **数据格式**：每个记录包含ID、日期、开始时间、结束时间和内容
+
+### 配置文件
+应用配置存储在应用数据目录中：
+- **配置文件路径**：`%APPDATA%\work_log_flutter_project\config.json`
+- **配置内容**：
+  - `dataSourcePath`：自定义数据源文件路径（可选）
+  - `themeMode`：主题模式（light/dark/system）
 
 ## UI设计
 
