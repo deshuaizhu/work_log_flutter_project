@@ -116,6 +116,8 @@ class StorageService extends GetxService {
   Future<void> addEntry(WorkLogEntry entry) async {
     _entries.add(entry);
     await _save();
+    // 通知所有控制器数据已变更
+    dataChanged.value++;
   }
 
   // 更新工作记录
@@ -124,6 +126,8 @@ class StorageService extends GetxService {
     if (index != -1) {
       _entries[index] = entry;
       await _save();
+      // 通知所有控制器数据已变更
+      dataChanged.value++;
     }
   }
 
@@ -131,6 +135,8 @@ class StorageService extends GetxService {
   Future<void> deleteEntry(String id) async {
     _entries.removeWhere((e) => e.id == id);
     await _save();
+    // 通知所有控制器数据已变更
+    dataChanged.value++;
   }
 
   // 获取所有记录

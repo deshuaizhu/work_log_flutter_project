@@ -1,31 +1,28 @@
 import 'package:get/get.dart';
 import '../models/work_log_entry.dart';
 import '../services/storage_service.dart';
+import 'work_log_data_controller.dart';
 
 class HistoryController extends GetxController {
   final StorageService _storageService = Get.find<StorageService>();
+  final WorkLogDataController _dataController = Get.find<WorkLogDataController>();
   
   final startDate = DateTime.now().subtract(const Duration(days: 30)).obs;
   final endDate = DateTime.now().obs;
   final groupedEntries = <DateTime, List<WorkLogEntry>>{}.obs;
-  final datesWithEntries = <DateTime>{}.obs;
+
+  /// 访问共享数据：所有有日志的日期集合
+  Set<DateTime> get datesWithEntries => _dataController.datesWithEntries.toSet();
 
   @override
   void onInit() {
     super.onInit();
     loadEntries();
-    loadDatesWithEntries();
     
     // 监听数据源变化，自动刷新数据
     ever(_storageService.dataChanged, (_) {
       loadEntries();
-      loadDatesWithEntries();
     });
-  }
-
-  void loadDatesWithEntries() {
-    final dates = _storageService.getDatesWithEntries();
-    datesWithEntries.assignAll(dates);
   }
 
   Future<void> loadEntries() async {
@@ -56,13 +53,11 @@ class HistoryController extends GetxController {
   Future<void> updateEntry(WorkLogEntry entry) async {
     await _storageService.updateEntry(entry);
     await loadEntries();
-    loadDatesWithEntries();
   }
 
   Future<void> deleteEntry(String id) async {
     await _storageService.deleteEntry(id);
     await loadEntries();
-    loadDatesWithEntries();
   }
 }
 

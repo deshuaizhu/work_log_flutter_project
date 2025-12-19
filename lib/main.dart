@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -12,6 +11,7 @@ import 'pages/data_source_page.dart';
 import 'pages/settings_page.dart';
 import 'services/storage_service.dart';
 import 'services/theme_service.dart';
+import 'controllers/work_log_data_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +32,9 @@ void main() async {
     await service.onInit();
     return service;
   }, permanent: true);
+
+  // 初始化并注册工作日志共享数据控制器
+  Get.put(WorkLogDataController(), permanent: true);
 
   runApp(const MyApp());
 }

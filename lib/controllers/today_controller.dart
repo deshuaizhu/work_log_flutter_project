@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../models/work_log_entry.dart';
 import '../services/storage_service.dart';
+import 'work_log_data_controller.dart';
 
 class TodayController extends GetxController {
   final StorageService _storageService = Get.find<StorageService>();
@@ -17,6 +18,18 @@ class TodayController extends GetxController {
         selectedDate.value.month == today.month &&
         selectedDate.value.day == today.day;
   }
+
+  /// 访问共享数据：所有有日志的日期集合
+  Set<DateTime> get datesWithEntries {
+    try {
+      final dataController = Get.find<WorkLogDataController>();
+      return dataController.datesWithEntries.toSet();
+    } catch (e) {
+      // 如果 WorkLogDataController 还未初始化，返回空集合
+      return <DateTime>{};
+    }
+  }
+  
 
   @override
   void onInit() {

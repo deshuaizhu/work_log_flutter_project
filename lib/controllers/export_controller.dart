@@ -11,7 +11,7 @@ class ExportController extends GetxController {
   
   final titleController = TextEditingController();
   final fileNameController = TextEditingController();
-  final startDate = DateTime.now().subtract(const Duration(days: 7)).obs;
+  final startDate = DateTime.now().subtract(const Duration(days: 30)).obs;
   final endDate = DateTime.now().obs;
   final isExporting = false.obs;
 

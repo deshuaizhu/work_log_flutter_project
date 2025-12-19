@@ -104,6 +104,7 @@ class TodayPage extends StatelessWidget {
       initialDate: controller.selectedDate.value,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
+      datesWithEntries: controller.datesWithEntries,
     );
     if (picked != null) {
       await controller.selectDate(picked);
