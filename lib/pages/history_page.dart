@@ -4,13 +4,14 @@ import 'package:intl/intl.dart';
 import '../controllers/history_controller.dart';
 import '../models/work_log_entry.dart';
 import '../widgets/time_range_picker.dart';
+import '../widgets/custom_date_picker.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
   String formatDate(DateTime date) {
     final weekday = DateFormat('EEEE', 'zh_CN').format(date);
-    return DateFormat('yyyy年MM月dd日', 'zh_CN').format(date) + ' $weekday';
+    return '${DateFormat('yyyy年MM月dd日', 'zh_CN').format(date)} $weekday';
   }
 
   String formatDateShort(DateTime date) {
@@ -18,44 +19,29 @@ class HistoryPage extends StatelessWidget {
   }
 
   Future<void> selectStartDate(HistoryController controller) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? picked = await showCustomDatePicker(
       context: Get.context!,
       initialDate: controller.startDate.value,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: const Color(0xFF136dec),
-            ),
-          ),
-          child: child!,
-        );
-      },
+      datesWithEntries: controller.datesWithEntries.toSet(),
     );
+    
     if (picked != null) {
       await controller.selectStartDate(picked);
     }
   }
 
+
   Future<void> selectEndDate(HistoryController controller) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? picked = await showCustomDatePicker(
       context: Get.context!,
       initialDate: controller.endDate.value,
       firstDate: controller.startDate.value,
       lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: const Color(0xFF136dec),
-            ),
-          ),
-          child: child!,
-        );
-      },
+      datesWithEntries: controller.datesWithEntries.toSet(),
     );
+    
     if (picked != null) {
       await controller.selectEndDate(picked);
     }

@@ -7,6 +7,7 @@ import '../controllers/today_controller.dart';
 import '../models/work_log_entry.dart';
 import '../widgets/work_log_item.dart';
 import '../widgets/time_range_picker.dart';
+import '../widgets/custom_date_picker.dart';
 
 class TodayPage extends StatelessWidget {
   const TodayPage({super.key});
@@ -98,22 +99,11 @@ class TodayPage extends StatelessWidget {
   }
 
   Future<void> selectDate(TodayController controller) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? picked = await showCustomDatePicker(
       context: Get.context!,
-      locale: const Locale('zh', 'CN'),
       initialDate: controller.selectedDate.value,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: const Color(0xFF136dec),
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
     if (picked != null) {
       await controller.selectDate(picked);

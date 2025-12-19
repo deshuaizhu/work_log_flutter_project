@@ -238,5 +238,15 @@ class StorageService extends GetxService {
   Future<void> reloadData() async {
     await _loadData();
   }
+
+  // 获取所有有日志的日期集合
+  Set<DateTime> getDatesWithEntries() {
+    final Set<DateTime> dates = {};
+    for (final entry in _entries) {
+      final date = DateTime(entry.date.year, entry.date.month, entry.date.day);
+      dates.add(date);
+    }
+    return dates;
+  }
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../controllers/export_controller.dart';
+import '../widgets/custom_date_picker.dart';
 
 class ExportPage extends StatelessWidget {
   const ExportPage({super.key});
@@ -11,21 +12,11 @@ class ExportPage extends StatelessWidget {
   }
 
   Future<void> selectStartDate(ExportController controller) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? picked = await showCustomDatePicker(
       context: Get.context!,
       initialDate: controller.startDate.value,
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Color(0xFF136dec),
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
     if (picked != null) {
       await controller.selectStartDate(picked);
@@ -33,21 +24,11 @@ class ExportPage extends StatelessWidget {
   }
 
   Future<void> selectEndDate(ExportController controller) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? picked = await showCustomDatePicker(
       context: Get.context!,
       initialDate: controller.endDate.value,
       firstDate: controller.startDate.value,
       lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Color(0xFF136dec),
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
     if (picked != null) {
       await controller.selectEndDate(picked);
